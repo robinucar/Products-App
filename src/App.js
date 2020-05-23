@@ -5,11 +5,21 @@ import Products from "./Components/Products/Products";
 
 import { Container, Row, Col } from "reactstrap";
 class App extends Component {
-  state = {currentCategory: ''}
+  state = {currentCategory: '', products: []};
+
+  componentDidMount() {
+    this.getProducts()
+  }
 
   changeCategory = (category) => {
     this.setState({currentCategory: category.categoryName})
   }
+
+  getProducts = () => {
+    fetch('http://localhost:3000/products')
+    .then(response => response.json())
+    .then(data => this.setState({products: data}))
+  };
 
 
   render(){
@@ -27,7 +37,7 @@ class App extends Component {
               <Categories currentCategory={this.state.currentCategory} changeCategory={this.changeCategory}  info={categoryInfo} />
             </Col>
             <Col xs="9">
-              <Products currentCategory={this.state.currentCategory} info={productInfo} />
+              <Products products={this.state.products} currentCategory={this.state.currentCategory} info={productInfo} />
             </Col>
           </Row>
         </Container>

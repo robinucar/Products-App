@@ -33,6 +33,7 @@ class Categories extends Component {
         {itemMap}
         </ListGroup>
         <h4>{this.props.currentCategory}</h4>
+
       </div>
     );
   }
