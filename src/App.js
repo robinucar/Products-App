@@ -5,7 +5,7 @@ import Products from "./Components/Products/Products";
 
 import { Container, Row, Col } from "reactstrap";
 class App extends Component {
-  state = { currentCategory: "", products: [] };
+  state = { currentCategory: "", products: [], basket: [] };
 
   componentDidMount() {
     this.getProducts();
@@ -13,21 +13,33 @@ class App extends Component {
 
   changeCategory = (category) => {
     this.setState({ currentCategory: category.categoryName });
-    console.log(category)
-    this.getProducts(category.id)
+    console.log(category);
+    this.getProducts(category.id);
   };
 
-
-
-  getProducts = categoryId => {
+  getProducts = (categoryId) => {
     let url = "http://localhost:3000/products";
     if (categoryId) {
       url += "?categoryId=" + categoryId;
     }
     fetch(url)
-      .then(response => response.json())
-      .then(data => this.setState({ products: data }));
+      .then((response) => response.json())
+      .then((data) => this.setState({ products: data }));
   };
+
+  addToBasket = product => {
+    let newBasket = this.state.basket;
+    let addedItem = newBasket.find(item => item.product.id === product.id)
+    if(addedItem) {
+      addedItem.quantity += 1
+    } else {
+      newBasket.push({product: product, quantity: 1});
+    }
+
+    this.setState({basket: newBasket})
+
+  }
+
 
   render() {
     const productInfo = {
@@ -39,9 +51,7 @@ class App extends Component {
     return (
       <div>
         <Container>
-          <Row>
-            <Nav />
-          </Row>
+          <Nav basket={this.state.basket} />
 
           <Row>
             <Col xs="3">
@@ -56,6 +66,7 @@ class App extends Component {
                 products={this.state.products}
                 currentCategory={this.state.currentCategory}
                 info={productInfo}
+                addToBasket={this.addToBasket}
               />
             </Col>
           </Row>
