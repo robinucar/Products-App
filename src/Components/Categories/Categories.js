@@ -22,7 +22,11 @@ class Categories extends Component {
 
   render() {
       const itemMap = this.state.categories.map(category => (
-    <ListGroupItem key={category.id} onClick={ () => this.props.changeCategory(category) }  >{category.categoryName}</ListGroupItem>
+    <ListGroupItem
+        active={category.categoryName === this.props.currentCategory ? true : false}
+        key={category.id}
+        onClick={ () => this.props.changeCategory(category) }  >{category.categoryName}
+    </ListGroupItem>
   ))
     return (
       <div>
