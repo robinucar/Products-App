@@ -40,6 +40,11 @@ class App extends Component {
 
   }
 
+  removeFromBasket = product => {
+    let newBasket = this.state.basket.filter(basketItem=> basketItem.product.id !== product.id);
+    this.setState({basket: newBasket})
+  }
+
 
   render() {
     const productInfo = {
@@ -51,7 +56,9 @@ class App extends Component {
     return (
       <div>
         <Container>
-          <Nav basket={this.state.basket} />
+          <Nav
+            basket = {this.state.basket}
+            removeFromBasket = {this.removeFromBasket} />
 
           <Row>
             <Col xs="3">
