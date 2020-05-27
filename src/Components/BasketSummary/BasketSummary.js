@@ -15,7 +15,7 @@ export default class BasketSummary extends Component {
     return (
       <UncontrolledDropdown nav inNavbar>
         <DropdownToggle nav caret>
-          Your Basket - {this.props.basket.length}
+          Your Basket
         </DropdownToggle>
         <DropdownMenu right>
           {this.props.basket.map((basketItem) => (

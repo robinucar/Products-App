@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Nav from "./Components/Navigation/Nav";
 import Categories from "./Components/Categories/Categories";
 import Products from "./Components/Products/Products";
+import alertify from 'alertifyjs'
 
 import { Container, Row, Col } from "reactstrap";
 class App extends Component {
@@ -37,6 +38,8 @@ class App extends Component {
     }
 
     this.setState({basket: newBasket})
+
+    alertify.success(product.productName + 'added to your basket...', 1.5)
 
   }
 
