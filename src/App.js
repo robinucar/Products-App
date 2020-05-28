@@ -90,7 +90,18 @@ class App extends Component {
                     />
                   )}
                 />
-                <Route exact path="/basket" component={BasketList} />
+
+                <Route
+                  exact
+                  path="/basket"
+                  render={(props) => (
+                    <BasketList
+                      {...props}
+                      basket={this.state.basket}
+                      removeFromBasket={this.removeFromBasket}
+                    />
+                  )}
+                />
                 <Route component={NotFound} />
               </Switch>
             </Col>
