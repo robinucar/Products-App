@@ -50,6 +50,7 @@ class App extends Component {
       (basketItem) => basketItem.product.id !== product.id
     );
     this.setState({ basket: newBasket });
+    alertify.error(product.productName + "removed from your basket...", 1.5);
   };
 
   render() {
