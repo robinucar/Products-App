@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import Nav from "./Components/Navigation/Nav";
 import Categories from "./Components/Categories/Categories";
 import Products from "./Components/Products/Products";
-import alertify from 'alertifyjs'
+import alertify from "alertifyjs";
+import { Switch, Route } from "react-router-dom";
 
 import { Container, Row, Col } from "reactstrap";
+import BasketList from "./Components/BasketList/BasketList";
+import NotFound from "./Components/NotFound/NotFound";
 class App extends Component {
   state = { currentCategory: "", products: [], basket: [] };
 
@@ -28,26 +31,26 @@ class App extends Component {
       .then((data) => this.setState({ products: data }));
   };
 
-  addToBasket = product => {
+  addToBasket = (product) => {
     let newBasket = this.state.basket;
-    let addedItem = newBasket.find(item => item.product.id === product.id)
-    if(addedItem) {
-      addedItem.quantity += 1
+    let addedItem = newBasket.find((item) => item.product.id === product.id);
+    if (addedItem) {
+      addedItem.quantity += 1;
     } else {
-      newBasket.push({product: product, quantity: 1});
+      newBasket.push({ product: product, quantity: 1 });
     }
 
-    this.setState({basket: newBasket})
+    this.setState({ basket: newBasket });
 
-    alertify.success(product.productName + 'added to your basket...', 1.5)
+    alertify.success(product.productName + "added to your basket...", 1.5);
+  };
 
-  }
-
-  removeFromBasket = product => {
-    let newBasket = this.state.basket.filter(basketItem=> basketItem.product.id !== product.id);
-    this.setState({basket: newBasket})
-  }
-
+  removeFromBasket = (product) => {
+    let newBasket = this.state.basket.filter(
+      (basketItem) => basketItem.product.id !== product.id
+    );
+    this.setState({ basket: newBasket });
+  };
 
   render() {
     const productInfo = {
@@ -60,8 +63,9 @@ class App extends Component {
       <div>
         <Container>
           <Nav
-            basket = {this.state.basket}
-            removeFromBasket = {this.removeFromBasket} />
+            basket={this.state.basket}
+            removeFromBasket={this.removeFromBasket}
+          />
 
           <Row>
             <Col xs="3">
@@ -72,12 +76,23 @@ class App extends Component {
               />
             </Col>
             <Col xs="9">
-              <Products
-                products={this.state.products}
-                currentCategory={this.state.currentCategory}
-                info={productInfo}
-                addToBasket={this.addToBasket}
-              />
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={(props) => (
+                    <Products
+                      {...props}
+                      products={this.state.products}
+                      currentCategory={this.state.currentCategory}
+                      info={productInfo}
+                      addToBasket={this.addToBasket}
+                    />
+                  )}
+                />
+                <Route exact path="/basket" component={BasketList} />
+                <Route component={NotFound} />
+              </Switch>
             </Col>
           </Row>
         </Container>
