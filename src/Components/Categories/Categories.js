@@ -1,43 +1,62 @@
 import React, { Component } from "react";
-import {ListGroup, ListGroupItem} from 'reactstrap';
+import { ListGroup, ListGroupItem, Badge } from "reactstrap";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as categoryActions from "../../Redux/actions/categoryActions";
+import * as productsActions from "../../Redux/actions/productsActions";
 
 class Categories extends Component {
-
-  state = {
-    categories: []
-
-  };
-
   componentDidMount() {
-    this.getCategories()
+    this.props.actions.getCategories();
   }
 
-  getCategories = () => {
-    fetch('http://localhost:3000/categories')
-    .then(response => response.json())
-    .then(data => this.setState({categories: data}))
+  getCategories = (category) => {
+    this.props.actions.changeCategory(category);
+    this.props.actions.getProducts(category.id);
   };
 
-
-
   render() {
-      const itemMap = this.state.categories.map(category => (
-    <ListGroupItem
-        active={category.categoryName === this.props.currentCategory ? true : false}
+    const itemMap = this.props.categories.map((category) => (
+      <ListGroupItem
+        active={category.id === this.props.currentCategory.id ? true : false}
         key={category.id}
-        onClick={ () => this.props.changeCategory(category) }  >{category.categoryName}
-    </ListGroupItem>
-  ))
+        onClick={() => this.getCategories(category)}
+      >
+        {category.categoryName}
+      </ListGroupItem>
+    ));
     return (
       <div>
-        <ListGroup>
-        {itemMap}
-        </ListGroup>
-
-
+        <h3>
+          <Badge color="warning">Categories</Badge>
+        </h3>
+        <ListGroup>{itemMap}</ListGroup>
       </div>
     );
   }
 }
 
-export default Categories;
+function mapStateToProps(state) {
+  return {
+    currentCategory: state.changeCategoryReducer,
+    categories: state.categoryListReducer,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      getCategories: bindActionCreators(
+        categoryActions.getCategories,
+        dispatch
+      ),
+      changeCategory: bindActionCreators(
+        categoryActions.changeCategory,
+        dispatch
+      ),
+      getProducts: bindActionCreators(productsActions.getProducts, dispatch),
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

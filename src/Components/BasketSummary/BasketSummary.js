@@ -6,12 +6,21 @@ import {
   DropdownItem,
   Badge,
   NavItem,
-  NavLink,
-  Nav,
+  NavLink
 } from "reactstrap";
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import * as basketActions from '../../Redux/actions/baskteActions';
+import alertify from "alertifyjs";
 
-export default class BasketSummary extends Component {
+
+ class BasketSummary extends Component {
+   removeFromBasket(product) {
+    this.props.actions.removeFromBasket(product);
+    alertify.error(product.productName + " removed from your basket...", 1.5);
+
+   }
   renderSummary() {
     return (
       <UncontrolledDropdown nav inNavbar>
@@ -23,7 +32,7 @@ export default class BasketSummary extends Component {
             <DropdownItem key={basketItem.product.id}>
               <Badge
                 color="danger"
-                onClick={() => this.props.removeFromBasket(basketItem.product)}
+                onClick={() => this.removeFromBasket(basketItem.product)}
               >
                 X
               </Badge>
@@ -60,3 +69,19 @@ export default class BasketSummary extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    basket: state.basketReducer
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      removeFromBasket: bindActionCreators(basketActions.removeFromBasket, dispatch),
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasketSummary);

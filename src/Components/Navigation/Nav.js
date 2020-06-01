@@ -4,9 +4,7 @@ import {
   Navbar,
   NavbarToggler,
   NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
+  Nav
 } from "reactstrap";
 import BasketSummary from "../BasketSummary/BasketSummary";
 
@@ -22,14 +20,7 @@ const Navi = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="/components/">Components</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                GitHub
-              </NavLink>
-            </NavItem>
+
             <BasketSummary
               basket = {props.basket}
               removeFromBasket = {props.removeFromBasket}
