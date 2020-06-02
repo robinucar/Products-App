@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { Table, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as basketActions from '../../Redux/actions/baskteActions';
+import * as basketActions from "../../Redux/actions/baskteActions";
 import alertify from "alertifyjs";
 
-class BasketList extends Component {
-  removeFromBasket(product) {
-    this.props.actions.removeFromBasket(product);
-    alertify.error(product.productName + " removed from your basket...", 1.5);
-  }
-  renderBasket() {
+const BasketList = props => {
+  const removeFromBasket = (product) => {
+    props.actions.removeFromBasket(product);
+    alertify.error(product.productName + " removed from your basket...", 2);
+  };
+  const renderBasket = () => {
     return (
       <Table striped>
         <thead>
@@ -25,7 +25,7 @@ class BasketList extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.basket.map(basketItem => (
+          {props.basket.map((basketItem) => (
             <tr key={basketItem.product.id}>
               <td>{basketItem.product.id}</td>
               <td>{basketItem.product.categoryId}</td>
@@ -36,9 +36,7 @@ class BasketList extends Component {
               <td>
                 <Button
                   color="danger"
-                  onClick={() =>
-                    this.removeFromBasket(basketItem.product)
-                  }
+                  onClick={() => removeFromBasket(basketItem.product)}
                 >
                   Remove
                 </Button>
@@ -48,19 +46,18 @@ class BasketList extends Component {
         </tbody>
       </Table>
     );
-  }
-  render() {
-    return <div>{this.renderBasket()}</div>;
-  }
-}
+  };
 
-const mapStateToProps = state => {
+  return <div>{renderBasket()}</div>;
+};
+
+const mapStateToProps = (state) => {
   return {
     basket: state.basketReducer,
   };
-}
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
       removeFromBasket: bindActionCreators(
@@ -69,6 +66,6 @@ const mapDispatchToProps = dispatch => {
       ),
     },
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasketList);

@@ -1,49 +1,47 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { ListGroup, ListGroupItem, Badge } from "reactstrap";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as categoryActions from "../../Redux/actions/categoryActions";
 import * as productsActions from "../../Redux/actions/productsActions";
 
-class Categories extends Component {
-  componentDidMount() {
-    this.props.actions.getCategories();
-  }
+const Categories = props => {
+  useEffect(() => {
+    props.actions.getCategories();
+  }, []);
 
-  getCategories = category => {
-    this.props.actions.changeCategory(category);
-    this.props.actions.getProducts(category.id);
+  const getCategories = category => {
+    props.actions.changeCategory(category);
+    props.actions.getProducts(category.id);
   };
 
-  render() {
-    const itemMap = this.props.categories.map((category) => (
-      <ListGroupItem
-        active={category.id === this.props.currentCategory.id ? true : false}
-        key={category.id}
-        onClick={() => this.getCategories(category)}
-      >
-        {category.categoryName}
-      </ListGroupItem>
-    ));
-    return (
-      <div>
-        <h3>
-          <Badge color="warning">Categories</Badge>
-        </h3>
-        <ListGroup>{itemMap}</ListGroup>
-      </div>
-    );
-  }
-}
+  const itemMap = props.categories.map(category => (
+    <ListGroupItem
+      active={category.id === props.currentCategory.id ? true : false}
+      key={category.id}
+      onClick={() => getCategories(category)}
+    >
+      {category.categoryName}
+    </ListGroupItem>
+  ));
+  return (
+    <div>
+      <h3>
+        <Badge color="warning">Categories</Badge>
+      </h3>
+      <ListGroup>{itemMap}</ListGroup>
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   return {
     currentCategory: state.changeCategoryReducer,
     categories: state.categoryListReducer,
   };
-}
+};
 
-const  mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     actions: {
       getCategories: bindActionCreators(
@@ -57,6 +55,6 @@ const  mapDispatchToProps = dispatch => {
       getProducts: bindActionCreators(productsActions.getProducts, dispatch),
     },
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);
