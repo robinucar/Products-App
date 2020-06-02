@@ -1,10 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import initialState from "./initialState";
 
-export default function saveProductReducer(
-  state = initialState.savedProduct,
-  action
-) {
+const saveProductReducer = (state = initialState.savedProduct, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_PRODUCT_SUCCESS:
       return action.payload;
@@ -13,4 +10,6 @@ export default function saveProductReducer(
     default:
       return state;
   }
-}
+};
+
+export default saveProductReducer;

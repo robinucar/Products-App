@@ -70,13 +70,13 @@ import alertify from "alertifyjs";
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     basket: state.basketReducer
   };
 };
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     actions: {
       removeFromBasket: bindActionCreators(basketActions.removeFromBasket, dispatch),

@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav
-} from "reactstrap";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
 import BasketSummary from "../BasketSummary/BasketSummary";
 
-const Navi = (props) => {
+const Navi = props => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -20,10 +14,9 @@ const Navi = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-
             <BasketSummary
-              basket = {props.basket}
-              removeFromBasket = {props.removeFromBasket}
+              basket={props.basket}
+              removeFromBasket={props.removeFromBasket}
             />
           </Nav>
         </Collapse>

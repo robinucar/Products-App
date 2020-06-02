@@ -3,7 +3,7 @@ import { Table, Button, Badge } from "reactstrap";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as productsActions from "../../Redux/actions/productsActions";
-import * as basketActions from '../../Redux/actions/baskteActions';
+import * as basketActions from "../../Redux/actions/baskteActions";
 import alertify from "alertifyjs";
 
 class Products extends Component {
@@ -12,9 +12,9 @@ class Products extends Component {
   }
 
   addToBasket = product => {
-    this.props.actions.addToBasket({quantity: 1, product});
+    this.props.actions.addToBasket({ quantity: 1, product });
     alertify.success(product.productName + " added to your basket...", 1.5);
-  }
+  };
   render() {
     return (
       <div>
@@ -60,18 +60,17 @@ class Products extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     currentCategory: state.changeCategoryReducer,
     products: state.productListReducer,
   };
 }
-
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     actions: {
       getProducts: bindActionCreators(productsActions.getProducts, dispatch),
-      addToBasket: bindActionCreators(basketActions.addToBasket, dispatch)
+      addToBasket: bindActionCreators(basketActions.addToBasket, dispatch),
     },
   };
 }

@@ -1,15 +1,15 @@
 import * as actionTypes from "./actionTypes";
 
-export function addToBasket(basketItem) {
+export const addToBasket = basketItem => {
   return {
     type: actionTypes.ADD_TO_BASKET,
     payload: basketItem,
   };
-}
+};
 
-export function removeFromBasket(product) {
+export const removeFromBasket = product => {
   return {
     type: actionTypes.REMOVE_FROM_BASKET,
     payload: product,
   };
-}
+};

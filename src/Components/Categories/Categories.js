@@ -10,7 +10,7 @@ class Categories extends Component {
     this.props.actions.getCategories();
   }
 
-  getCategories = (category) => {
+  getCategories = category => {
     this.props.actions.changeCategory(category);
     this.props.actions.getProducts(category.id);
   };
@@ -36,14 +36,14 @@ class Categories extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     currentCategory: state.changeCategoryReducer,
     categories: state.categoryListReducer,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+const  mapDispatchToProps = dispatch => {
   return {
     actions: {
       getCategories: bindActionCreators(

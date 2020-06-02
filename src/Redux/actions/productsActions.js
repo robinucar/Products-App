@@ -1,28 +1,28 @@
 import * as actionTypes from "./actionTypes";
 
-export function getProductsSuccess(products) {
+export const getProductsSuccess = products => {
   return {
     type: actionTypes.GET_PRODUCTS_SUCCESS,
     payload: products,
   };
-}
+};
 
-export function createProductSuccess(product) {
+export const createProductSuccess = product => {
   return {
     type: actionTypes.CREATE_PRODUCT_SUCCESS,
     payload: product,
   };
 }
 
-export function updateProductSuccess(product) {
+export const updateProductSuccess = product => {
   return {
     type: actionTypes.UPDATE_PRODUCT_SUCCESS,
     payload: product,
   };
 }
 
-export function getProducts(categoryId) {
-  return function (dispatch) {
+export const getProducts = categoryId => {
+  return dispatch => {
     let url = "http://localhost:3000/products";
     if (categoryId) {
       url += "?categoryId=" + categoryId;
@@ -33,8 +33,8 @@ export function getProducts(categoryId) {
   };
 }
 
-export function saveProduct(product) {
-  return function (dispatch) {
+export const saveProduct = product => {
+  return dispatch => {
     return saveProductApi(product)
       .then((savedProduct) => {
         product.id
@@ -47,7 +47,7 @@ export function saveProduct(product) {
   };
 }
 
-export async function handleResponse(response) {
+export const  handleResponse = async response => {
   if (response.ok) {
     return response.json();
   }
@@ -55,12 +55,12 @@ export async function handleResponse(response) {
   throw new Error(error);
 }
 
-export function handleError(error) {
+export const handleError = error => {
   console.log("something went wrong");
   throw error;
 }
 
-export function saveProductApi(product) {
+export const saveProductApi = product => {
   fetch("http://localhost:3000/products/" + (product.id || ""), {
     method: product.id ? "PUT" : "POST",
     headers: { "content-type": "application/json" },

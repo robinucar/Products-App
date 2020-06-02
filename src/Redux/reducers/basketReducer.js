@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import initialState from "./initialState";
 
-export default function basketReducer(state = initialState.basket, action) {
+const basketReducer = (state = initialState.basket, action) => {
   switch (action.type) {
     case actionTypes.ADD_TO_BASKET:
       const addedItem = state.find(
@@ -29,4 +29,6 @@ export default function basketReducer(state = initialState.basket, action) {
     default:
       return state;
   }
-}
+};
+
+export default basketReducer;
